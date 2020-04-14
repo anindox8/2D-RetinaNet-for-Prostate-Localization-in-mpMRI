@@ -4,20 +4,20 @@
 
 **Data**: 1950 prostate mpMRI volumes (*Healthy/Benign Cases*: 1234; *Malignant Cases*: 716); equivalent to 23400 2D slices. [1559/391: Train/Val Ratio] 
 
-**Acknowledgments**: The following approach is based on the TensorFlow Estimator/Keras adaptation of [keras-retinanet](https://github.com/fizyr/keras-retinanet/) by Fizyr.
+**Acknowledgments**: The following approach is based on a TensorFlow Estimator/Keras (v1.15) adaptation of [keras-retinanet](https://github.com/fizyr/keras-retinanet/) by Fizyr, and acknowledges Martin Zlocha et al. for their [anchor optimization algorithm](https://github.com/martinzlocha/anchor-optimization).
 
 **Directories**  
-  ● Preprocess Dataset to Normalized Volumes in Optimized NumPy Format: `preprocess/prime/preprocess_deploy.py`  
-  ● Generate Data-Directory Feeder List: `feed/prime/feed_metadata.py`  
-  ● Train 2D RetinaNet Model: `train/prime/train_StFA.py`  
-  ● Deploy Model (Validation): `deploy/prime/deployBinary.py`  
+  ● Preprocess Dataset to Normalized Volumes in Optimized NumPy Format: `scripts/preprocess.py`  
+  ● Generate Data-Directory Feeder List: `scripts/feeder_csv.py`  
+  ● Anchor Optimization: `misc/rdc_08.py`  
+  ● Pre-Calculate Regression Target Deltas *(to determine Mean, STDEV): `misc/rdc_07.py`  
+  ● Train 2D RetinaNet Model: `scripts/train_RetinaNet.py`  
+  ● Deploy Model (Validation): `scripts/deploy_model.py`  
   
 
-**Referemce Publications:**  
-  ● Tsung-Yi Lin et al. (2017), "Focal Loss for Dense Object Detection", 2017 IEEE International Conference on Computer Vision (ICCV).
-    DOI:10.1109/ICCV.2017.324
-  ● M. Zlocha et al. (2019), "Improving RetinaNet for CT Lesion Detection with Dense Masks from Weak RECIST Labels", 2019 Medical Image 
-    Computing and Computer Assisted Intervention (MICCAI). DOI:10.1007/978-3-030-32226-7_45                 
+**Reference Publications:**  
+  ● Tsung-Yi Lin et al. (2017), "Focal Loss for Dense Object Detection", IEEE ICCV. DOI:10.1109/ICCV.2017.324  
+  ● M. Zlocha et al. (2019), "Improving RetinaNet for CT Lesion Detection with Dense Masks from Weak RECIST Labels", MICCAI. DOI:10.1007/978-3-030-32226-7_45                 
 
 
 ## Network Architecture  
