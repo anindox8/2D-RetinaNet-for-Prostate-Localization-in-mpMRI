@@ -7,7 +7,7 @@
 **Acknowledgments**: The following approach is based on the TensorFlow Estimator/Keras adaptation of [keras-retinanet](https://github.com/fizyr/keras-retinanet/) by Fizyr.
 
 **Directories**  
-  ● Preprocess Dataset to Spatially Resampled, Intensity Normalized, Overlapping (15%) Octant Patches in Optimized NumPy Format: `preprocess/prime/preprocess_deploy.py`  
+  ● Preprocess Dataset to Normalized Volumes in Optimized NumPy Format: `preprocess/prime/preprocess_deploy.py`  
   ● Generate Data-Directory Feeder List: `feed/prime/feed_metadata.py`  
   ● Train 2D RetinaNet Model: `train/prime/train_StFA.py`  
   ● Deploy Model (Validation): `deploy/prime/deployBinary.py`  
