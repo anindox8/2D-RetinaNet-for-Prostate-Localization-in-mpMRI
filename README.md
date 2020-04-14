@@ -1,4 +1,4 @@
-# 2D-RetinaNet-for-Prostate-Detection-in-mpMRI
+# Prostate Detection in mpMRI using 2D RetinaNet
  
 **Problem Statement**: Localization of the prostate (healthy or with benign/malignant tumors) in multi-parametric MRI scans (T2W, DWI *with high b-value*, ADC).   
 
@@ -13,12 +13,11 @@
   ● Deploy Model (Validation): `deploy/prime/deployBinary.py`  
   
 
-
-**Related Publication(s):**  
-  ● A. Saha, F.I. Tushar, K. Faryna, V.D. Anniballe, R. Hou, M.A. Mazurowski, G.D. Rubin, J.Y. Lo (2020), "Weakly Supervised 3D   
-    Classification of Chest CT using Aggregated Multi-Resolution Deep Segmentation Features", 2020 SPIE Medical Imaging: Computer-Aided 
-    Diagnosis, Houston, TX, USA. DOI:10.1117/12.2550857
-                 
+**Referemce Publications:**  
+  ● Tsung-Yi Lin et al. (2017), "Focal Loss for Dense Object Detection", 2017 IEEE International Conference on Computer Vision (ICCV).
+    DOI:10.1109/ICCV.2017.324
+  ● M. Zlocha et al. (2019), "Improving RetinaNet for CT Lesion Detection with Dense Masks from Weak RECIST Labels", 2019 Medical Image 
+    Computing and Computer Assisted Intervention (MICCAI). DOI:10.1007/978-3-030-32226-7_45                 
 
 
 ## Network Architecture  
