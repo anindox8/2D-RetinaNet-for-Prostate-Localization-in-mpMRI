@@ -25,7 +25,7 @@ Script:         Train 2D RetinaNet
 Contributor:    anindox8
 Target Organ:   Prostate
 Target Classes: Benign(0), Malignant(1)
-Update:         12/04/2020
+Update:         14/04/2020
 
 '''
 
@@ -46,7 +46,7 @@ AUG_TRANS_FACTOR    =   0.20                              # 0-1
 # Training Hyperparameters
 MAX_EPOCHS          =   350
 VAL_POINTS          =   350
-BATCH_SIZE          =   64
+BATCH_SIZE          =   32
 LR_MODE             =  'eLR'                              # 'CLR'/'eLR'
 OPTIM               =  'momentum'                         # 'adabound'/'adam'/'momentum'/'rmsprop'
 CACHE_TDS_PATH      =  '/home/user/prostate_tds_cache'    # None/'/home/user/prostate_tds_cache'
@@ -77,11 +77,11 @@ COUNT_LOSS          =   []
 
 # Anchor Definition
 AnchorParam = AnchorParameters(sizes   = [32,64,128,256,512],  strides = [8,16,32,64,128],
-                               ratios  = np.array([0.442,0.778,1.000,1.286,2.265], tf.keras.backend.floatx()),
-                               scales  = np.array([0.496,0.741,1.162], tf.keras.backend.floatx()))
+                               ratios  = np.array([0.705, 1.000, 1.419], tf.keras.backend.floatx()),
+                               scales  = np.array([0.400, 0.644, 1.031], tf.keras.backend.floatx()))
 
-anchor_deltas_mean = [-0.020267705, 0.019869299, 0.019910406, -0.020104121]
-anchor_deltas_std  = [ 0.084332250, 0.089652309, 0.083955979,  0.092090049]
+anchor_deltas_mean = [-0.079931999, 0.005310305, 0.075939696, 0.011442137]
+anchor_deltas_std  = [ 0.081362432, 0.070324861, 0.080778639, 0.073184822]
 
 
 def model_fn(features, labels, mode, params):
@@ -96,15 +96,15 @@ def model_fn(features, labels, mode, params):
                 anchor_deltas_mean      =   anchor_deltas_mean,
                 anchor_deltas_std       =   anchor_deltas_std,
                 backbone                =  'seresnet',
-                backbone_filters        =  (64,128,256,256),
+                backbone_filters        =  (128,256,512,512),
                 backbone_stride         = ((1,1),(2,2),(2,2),(2,2)),
-                FPN_channels            =   128, 
-                regression_channels     =   64,
+                FPN_channels            =   256, 
+                regression_channels     =   128,
                 regression_layers       =   1, 
-                classification_channels =   64,
+                classification_channels =   128,
                 classification_layers   =   1,
                 class_specific_filter   =   False,
-                nms                     =   False,
+                nms                     =   True,
                 max_detections          =   300,
                 score_threshold         =   0.05,
                 mode                    =   mode)         
@@ -305,12 +305,12 @@ if __name__ == '__main__':
     warnings.simplefilter(action='ignore', category=RuntimeWarning)
 
     # Argument Parser Setup
-    parser = argparse.ArgumentParser(description='PCa Detection in mpMRI')
+    parser = argparse.ArgumentParser(description='Prostate Detection in mpMRI')
     parser.add_argument('--run_validation',     default=True)
     parser.add_argument('--restart',            default=False, action='store_true')
     parser.add_argument('--verbose',            default=False, action='store_true')
     parser.add_argument('--cuda_devices', '-c', default='0')
-    parser.add_argument('--model_path',   '-p', default='./models/mykonos/weights/001_14042020/')
+    parser.add_argument('--model_path',   '-p', default='./models/mykonos/weights/002_14042020/')
     parser.add_argument('--train_csv',    '-t', default='./models/mykonos/feed/prostate-mpMRI-128_training-fold-1.csv')
     parser.add_argument('--val_csv',      '-v', default='./models/mykonos/feed/prostate-mpMRI-128_validation-fold-1.csv')
     args = parser.parse_args()

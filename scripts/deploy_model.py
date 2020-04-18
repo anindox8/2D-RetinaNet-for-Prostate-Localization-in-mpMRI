@@ -6,6 +6,7 @@ import time
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import cv2
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from sklearn.metrics import roc_auc_score, roc_curve, auc, confusion_matrix
@@ -19,18 +20,18 @@ Script:         Deploy 2D RetinaNet
 Contributor:    anindox8
 Target Organ:   Prostate
 Target Classes: Benign(0), Malignant(1)
-Update:         24/03/2020
+Update:         14/04/2020
 
 '''
 
 
 # Anchor Definition
 AnchorParam = AnchorParameters(sizes   = [32,64,128,256,512],  strides = [8,16,32,64,128],
-                               ratios  = np.array([0.442,0.778,1.000,1.286,2.265], tf.keras.backend.floatx()),
-                               scales  = np.array([0.496,0.741,1.162], tf.keras.backend.floatx()))
+                               ratios  = np.array([0.705, 1.000, 1.419], tf.keras.backend.floatx()),
+                               scales  = np.array([0.400, 0.644, 1.031], tf.keras.backend.floatx()))
 
-anchor_deltas_mean = [-0.020267705, 0.019869299, 0.019910406, -0.020104121]
-anchor_deltas_std  = [ 0.084332250, 0.089652309, 0.083955979,  0.092090049]
+anchor_deltas_mean = [-0.079931999, 0.005310305, 0.075939696, 0.011442137]
+anchor_deltas_std  = [ 0.081362432, 0.070324861, 0.080778639, 0.073184822]
 
 counter = 0
 
@@ -62,6 +63,7 @@ def predict(args, display=False):
 
         # Parse Data Reader Output
         img         = np.expand_dims((output['features']['x']),axis=0)
+        lbl         = output['labels']['mask']
         bbox_gt     = output['labels']['y_rg']
         subject_id  = output['img_id']
         
@@ -77,30 +79,40 @@ def predict(args, display=False):
             feed_dict  = {my_predictor._feed_tensors['x']: img})
 
         # Visualize Detections
-        fig,ax = plt.subplots(figsize=(20, 10))
+        fig,ax              = plt.subplots(figsize=(20, 10))
+        lbl8                = np.zeros(shape=(lbl.shape[0],lbl.shape[1],3))
+        lbl8[:,:,0]         = ((lbl/lbl.max())*0).astype(np.uint8)
+        lbl8[:,:,1]         = ((lbl/lbl.max())*0).astype(np.uint8)
+        lbl8[:,:,2]         = ((lbl/lbl.max())*255).astype(np.uint8)
         ax.imshow(img[0,:,:,0], cmap='gray')                                 # Display Base Image
+        ax.imshow(lbl8, alpha=0.20)                                          # Display Ground-Truth Segmentation Mask Annotation                                
  
-
-        for i in range(bbox_gt.shape[0]):                                    # Display Ground-Truth Annotations in Green
+        '''
+        for i in range(bbox_gt.shape[0]):                                    # Display Ground-Truth Bounding Box Annotation
             b    = np.array(bbox_gt[i]).astype(int)
             print('GT',b)
-            rect = patches.Rectangle((b[0],b[1]),b[2]-b[0],b[3]-b[1],linewidth=4,edgecolor=(0,1,0),facecolor='none')
+            rect = patches.Rectangle((b[0],b[1]),b[2]-b[0],b[3]-b[1],
+                                      linewidth=4,edgecolor=(0,0,1),
+                                      facecolor='none')
             ax.add_patch(rect)
+        '''
 
-        for box, score, label in zip(y_boxes[0], y_scores[0], y_labels[0]):  # Display Predicted Detections in Red
-            b    = box.astype(int)
-            #if ((b[0]==b[2])|(b[1]==b[3])): continue
-            print('PRED',b,'PRED',score,'PRED',label)
-            rect = patches.Rectangle((b[0],b[1]),b[2]-b[0],b[3]-b[1],linewidth=3,edgecolor=(1,0,0),facecolor='none')
-            ax.add_patch(rect)
-            plt.text(b[0], b[1], 'tumor', bbox=dict(facecolor='red', alpha=1.0), fontsize=12)    
+        max_score = 0
+        for box, score, label in zip(y_boxes[0], y_scores[0], y_labels[0]):  # Display Predicted Detections
+            if (score>max_score):
+                max_score = score
+                b         = box.astype(int)
+        if ((b[0]==b[2])|(b[1]==b[3])): continue
+        rect = patches.Rectangle((b[0],b[1]),b[2]-b[0],b[3]-b[1],linewidth=5,edgecolor=(0,1,0),facecolor='none')
+        ax.add_patch(rect)
+        plt.text(b[0], b[1], 'prostate | {:.4f}'.format(score), bbox=dict(facecolor=(0,1,0), alpha=1.0), fontsize=12)    
 
         plt.savefig(args.save_path+subject_id+'_'+str(counter)+'.png', bbox_inches='tight')
         plt.cla()
         plt.clf()
         
         counter += 1
-        if (counter>=20): break
+        #if (counter>=0): break
 
         # Print Outputs
         if display: print('ID={}; y_boxes={}; y_scores={}; y_labels={}; Run Time={:0.2f} s;'.format(
@@ -110,12 +122,12 @@ def predict(args, display=False):
 
 if __name__ == '__main__':
     # Argument Parser Setup
-    parser = argparse.ArgumentParser(description='PCa Detection in mpMRI')
+    parser = argparse.ArgumentParser(description='Prostate Detection in mpMRI')
     parser.add_argument('--verbose',            default=False, action='store_true')
     parser.add_argument('--cuda_devices', '-c', default='0')
-    parser.add_argument('--model_path',   '-m', default='./models/laufey/weights/026_09042020/Epoch-58_ValLoss-7.1103_FocalLoss-0.7360_L1Loss-6.3743/')
-    parser.add_argument('--csv',          '-d', default='./models/laufey/feed/prostate-mpMRI-128_training-fold-1.csv')
-    parser.add_argument('--save_path',    '-s', default='./models/laufey/inference/026_74/')
+    parser.add_argument('--model_path',   '-m', default='./models/mykonos/weights/002_14042020/Epoch-240_ValLoss-2.7697_FocalLoss-0.0906_L1Loss-2.6790/')
+    parser.add_argument('--csv',          '-d', default='./models/mykonos/feed/prostate-mpMRI-128_validation-fold-1.csv')
+    parser.add_argument('--save_path',    '-s', default='./models/mykonos/inference/case2/')
     args = parser.parse_args()
                 
     # Set Verbosity

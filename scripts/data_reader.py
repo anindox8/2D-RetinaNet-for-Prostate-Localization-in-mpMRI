@@ -315,13 +315,14 @@ def read_fn(file_references, mode, params=None):
           if (params['deploy_mode']==True):                            # Inference/Evaluation Labels (Raw Annotations)
             yield {'features': {'x':    img[e].astype(np.float32)},
                    'labels':   {'y_rg': annotations['bboxes'],
-                                'y_cl': annotations['labels']},
-                   'img_id':   subject_id}
+                                'y_cl': annotations['labels'],
+                                'mask': lbl[e]},
+                   'img_id':     subject_id}
           else:                                                        # Training/Validation Labels (Anchors)
             yield {'features': {'x':    img[e].astype(np.float32)},
                    'labels':   {'y_rg': full_annotations[0][0],
                                 'y_cl': full_annotations[1][0]},
-                   'img_id':   subject_id}
+                   'img_id':     subject_id}
   return
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
