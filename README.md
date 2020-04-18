@@ -25,7 +25,7 @@
 ## Train/Validation 
   
   
-![Train-Val Curves](reports/images/training_curves.png)*Figure 1.  Training (orange) and validation (blue) curves for the 2D RetinaNet using an exponentially decaying learning rate of 1e-4 with 80% decay every 5 epochs, optimized by SGD with momentum of 0.9.*  
+![Train-Val Curves](reports/images/training_curves.png)*Figure 1.  Training (orange) and validation (blue) loss [focal+L1] curves for the 2D RetinaNet using an exponentially decaying learning rate of 1e-4 with 80% decay every 5 epochs, optimized by SGD with momentum of 0.9.*  
   
     
     
