@@ -32,4 +32,4 @@
 ## Inference  
   
   
-![Prostate Predictions](reports/images/prostate_predictions.png)*Figure 2.  Predicted prostate bounding boxes at different scales and orientations (in green) by the 2D RetinaNet, versus the segmentation ground-truth (converted to bounding box annotation at train-time) on T2W MRI slices.* 
+![Prostate Predictions](reports/images/prostate_predictions.png)*Figure 2.  Predicted prostate bounding boxes at different scales and orientations [in green] by the 2D RetinaNet, versus the segmentation ground-truth [in blue] (converted to bounding box annotation at train-time) on T2W MRI slices.* 
