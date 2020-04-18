@@ -29,7 +29,7 @@
   
     
     
-## Multi-Resolution Deep Segmentation Features  
+## Inference  
   
   
-![Multi-Resolution Deep Segmentation Features](reports/images/segmentation_features.png)*Figure 2.  From left-to-right: input CT volume (axial view), 3 out of 61 segmentation feature maps extracted from the pretrained DenseVNet model, at different resolutions, and their corresponding static aggregated feature maps (StFA) in the case of diseased lungs with atelectasis (top row), mass (middle row) and emphysema (bottom row).*  
+![Prostate Predictions](reports/images/prostate_predictions.png)*Figure 2.  Predicted prostate bounding boxes at different scales and orientations (in green) by the 2D RetinaNet, versus the segmentation ground-truth (converted to bounding box annotation at train-time).* 
