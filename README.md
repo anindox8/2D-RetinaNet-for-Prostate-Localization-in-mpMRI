@@ -22,14 +22,14 @@
   ● M. Zlocha et al. (2019), "Improving RetinaNet for CT Lesion Detection with Dense Masks from Weak RECIST Labels", MICCAI. DOI:10.1007/978-3-030-32226-7_45                 
 
 
-## Network Architecture  
+## Train/Validation 
   
   
-![Network Architecture](reports/images/network_architecture.png)*Figure 1.  Integrated model architecture for reusing segmentation feature maps in 3D binary classification. The segmentation sub-model is a DenseVNet, taking a variable input volume with a single channel and the classification sub-model is a 3D ResNet, taking an input volume patch of size [112,112,112] with 2 channels. Final output is a tensor with the predicted class probabilities.*  
+![Train-Val Curves](reports/images/training_curves.png)*Figure 1.  Training (orange) and validation (blue) curves for the 2D RetinaNet using an exponentially decaying learning rate of 1e-4 with 80% decay every 5 epochs, optimized by Stochastic Gradient Descent with Momentum of 0.9.*  
   
     
     
 ## Inference  
   
   
-![Prostate Predictions](reports/images/prostate_predictions.png)*Figure 2.  Predicted prostate bounding boxes at different scales and orientations (in green) by the 2D RetinaNet, versus the segmentation ground-truth (converted to bounding box annotation at train-time).* 
+![Prostate Predictions](reports/images/prostate_predictions.png)*Figure 2.  Predicted prostate bounding boxes at different scales and orientations (in green) by the 2D RetinaNet, versus the segmentation ground-truth (converted to bounding box annotation at train-time) on T2W MRI slices.* 
