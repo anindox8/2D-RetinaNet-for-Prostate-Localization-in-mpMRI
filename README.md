@@ -6,7 +6,7 @@
 
 **Acknowledgments**: The following approach is based on a TensorFlow Estimator/Keras (v1.15) adaptation of [keras-retinanet](https://github.com/fizyr/keras-retinanet/) by Fizyr, [SEResNet](https://github.com/qubvel/classification_models) by Pavel Yakubovskiy et al., and an [anchor optimization algorithm](https://github.com/martinzlocha/anchor-optimization) by Martin Zlocha et al.
 
-**Note**: The following project is a simple, precursor proof-of-concept leading up to the goal of computer-aided clinically significant prostate cancer detection in mpMRI scans, using deep neural network detection models.
+**Note**: The following project is a simplified precursor leading up to the goal of computer-aided clinically significant prostate cancer detection in mpMRI scans, using deep neural network detection models.
 
 **Directories**  
   ● Preprocess Dataset to Normalized Volumes in Optimized NumPy Format: `scripts/preprocess.py`  
