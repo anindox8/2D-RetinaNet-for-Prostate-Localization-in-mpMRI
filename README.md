@@ -1,4 +1,4 @@
-# 2D RetinaNet for Prostate Detection in mpMRI
+# 2D RetinaNet for Prostate Localization in mpMRI
  
 **Problem Statement**: Localization of the prostate (healthy or with benign/malignant tumors) in multi-parametric MRI scans (T2W, DWI *with high b-value*, ADC).   
 
